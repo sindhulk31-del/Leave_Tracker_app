@@ -1,0 +1,42 @@
+<nav class="navbar leave-navbar flex-column align-items-stretch">
+
+  <div class="nav-top w-100 d-flex align-items-center justify-content-between px-3">
+    
+    <div class="d-flex align-items-center" >
+      <button class="btn btn-menu mr-2" (click)="toggleMenu()">
+        <i class="fa fa-bars"></i>
+      </button>
+
+      <span class="navbar-brand mb-0">
+        Leave Admin
+      </span>
+    </div>
+
+    <div class="user-section">
+      <i class="fa fa-user"></i> {{ userName }}
+      <button class="btn btn-logout btn-sm ml-3" (click)="logout()">
+        <i class="fa fa-sign-out"></i> Logout
+      </button>
+    </div>
+  </div>
+
+  <div class="menu-items w-100" *ngIf="menuOpen" >
+    @if (role=='Hr'){
+      <a routerLink="employee" class="menu-link">
+        <i class="fa fa-users"></i> Employees
+      </a>
+
+      <a routerLink="leave-balance" class="menu-link">
+        <i class="fa fa-bar-chart"></i> Leave Balance
+      </a>
+    }
+
+    <a routerLink="leave-request" class="menu-link">
+      <i class="fa fa-envelope"></i> Leave Request
+    </a>
+  </div>
+</nav>
+
+<div class="content">
+  <router-outlet></router-outlet>
+</div>

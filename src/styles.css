@@ -1,1 +1,68 @@
-/* You can add global styles to this file, and also import other style files */
+/* Toastr container must be fixed */
+.toast-container {
+  position: fixed !important;
+  z-index: 999999 !important;
+  pointer-events: none;
+}
+
+/* Bottom Right position */
+.toast-bottom-right {
+  bottom: 20px !important;
+  right: 20px !important;
+}
+
+/* Toast box style (modern card look) */
+.toast {
+  pointer-events: auto;
+  min-width: 320px;
+  max-width: 420px;
+  padding: 16px 18px;
+  border-radius: 10px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Success */
+.toast-success {
+  background-color: #e9f9f0 !important;
+  color: #0f5132 !important;
+  border-left: 6px solid #28a745 !important;
+}
+
+/* Error */
+.toast-error {
+  background-color: #fdecea !important;
+  color: #842029 !important;
+  border-left: 6px solid #dc3545 !important;
+}
+
+/* Warning */
+.toast-warning {
+  background-color: #fff4e5 !important;
+  color: #664d03 !important;
+  border-left: 6px solid #ffc107 !important;
+}
+
+/* Info */
+.toast-info {
+  background-color: #eef5ff !important;
+  color: #084298 !important;
+  border-left: 6px solid #0d6efd !important;
+}
+
+/* Close button */
+.toast-close-button {
+  color: #000 !important;
+  opacity: 0.6;
+}
+
+/* Title */
+.toast-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* Message */
+.toast-message {
+  font-size: 14px;
+}

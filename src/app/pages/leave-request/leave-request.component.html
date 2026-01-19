@@ -1,0 +1,180 @@
+@if (isHR) {
+<div class="mb-3 d-flex gap-2">
+
+  <button class="btn"
+    [class.btn-primary]="activeTab === 'my'"
+    [class.btn-outline-primary]="activeTab !== 'my'"
+    (click)="switchTab('my')">
+    My Leave Requests
+  </button>
+
+  <button class="btn"
+    [class.btn-primary]="activeTab === 'all'"
+    [class.btn-outline-primary]="activeTab !== 'all'"
+    (click)="switchTab('all')">
+    All Employee Leave Requests
+  </button>
+
+</div>
+}
+
+  <!-- ================= HR VIEW ================= -->
+  @if (isHR && activeTab === 'all' && uniqueEmployees.length && !selectedEmployeeRequests.length) {
+
+<div class="card shadow-sm">
+  <div class="card-header ">
+    All Employee Leave Requests
+  </div>
+
+  <div class="card-body table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Sl.No</th>
+          <th>Employee ID</th>
+          <th>Employee</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (emp of uniqueEmployees; track $index) {
+        <tr style="cursor:pointer"
+        (click)="router.navigate(['/leave-request/all', emp.empId])">
+
+          <td>{{ $index + 1 }}</td>
+          <td>{{ emp.empId }}</td>
+          <td>{{ emp.empName }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+}
+
+
+  @if (isHR && activeTab === 'all'  && selectedEmployeeRequests.length) {
+
+<button class="btn-go-back" (click)="goBack()">← Back</button>
+
+<div class="card shadow-sm">
+  <div class="card-header ">
+    {{ selectedEmployeeName }} - Leave Requests
+  </div>
+
+  <div class="card-body">
+    <div class="row g-3">
+      @for (item of selectedEmployeeRequests; track $index) {
+      <div class="col-md-6">
+        <div class="border rounded p-3">
+          <strong>LeaveType: {{ item.leaveType }}</strong>
+          <p class="small text-muted">
+            From: {{ item.fromDate | date:'dd-MM-yyyy' }} →
+            To: {{ item.toDate | date:'dd-MM-yyyy' }}
+          <br>
+          Reason: {{ item.reason }}</p>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+
+}
+
+
+  <!-- ================= EMPLOYEE VIEW ================= -->
+@if (!isHR || (isHR && activeTab === 'my')) {
+
+<div class="card shadow-sm">
+  <div class="card-myHeader ">
+    <span>My Leave Requests</span>
+    <button class="btn btn-light btn-sm" (click)="openPopup()">
+      + Request Leave
+    </button>
+  </div>
+
+  <div class="card-body">
+    <div class="row g-3">
+      @for (item of leaveRequests; track $index) {
+      <div class="col-md-4">
+        <div class="border rounded p-3">
+          <strong>LeaveType: {{ item.leaveType }}</strong>
+          <p class="small text-muted">
+            From: {{ item.fromDate | date:'dd-MM-yyyy' }} →
+            To: {{ item.toDate | date:'dd-MM-yyyy' }}
+          </p>
+          <p class="mb-0"> Reason: {{ item.reason }}</p>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+
+}
+
+ @if (showRequestPopup) {
+<div class="modal-backdrop-custom">
+
+  <div class="modal-card ">
+    <div class="modal-header text-black d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Request Leave</h5>
+      <button class="btn-close btn-close-black" (click)="closePopup()" ></button>
+    </div>
+
+    <div class="modal-body">
+      <form>
+
+        <div class="row">
+          <div class="col-6 mb-3">
+            <label>From</label>
+            <input type="date"
+                   [(ngModel)]="newLeaveRequestObj.fromDate"
+                   name="fromDate"
+                   class="form-control form-control-sm">
+          </div>
+
+          <div class="col-6 mb-3">
+            <label>To</label>
+            <input type="date"
+                   [(ngModel)]="newLeaveRequestObj.toDate"
+                   name="toDate"
+                   class="form-control form-control-sm">
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label>Leave Type</label>
+          <select class="form-select form-select-sm"
+                  [(ngModel)]="newLeaveRequestObj.leaveType"
+                  name="leaveType">
+            <option value="">Select</option>
+            <option value="sickLeave">Sick Leave</option>
+            <option value="paidLeave">Paid Leave</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label>Reason</label>
+          <textarea rows="3"
+                    [(ngModel)]="newLeaveRequestObj.reason"
+                    name="reason"
+                    class="form-control form-control-sm"></textarea>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <button type="button"
+                  class="btn btn-secondary btn-sm"
+                  (click)="onCancelLeaveRequest()">Cancel</button>
+          <button type="button"
+                  class="btn-leave-submit"
+                  (click)="onSaveLeaveRequest()">Submit</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+}
