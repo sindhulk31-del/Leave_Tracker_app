@@ -6,12 +6,7 @@
     <div class="header-actions">
       <div class="search-box">
         <i class="fa fa-search"></i>
-        <input
-          type="text"
-          placeholder="Search employee..."
-          [(ngModel)]="searchText"
-          (input)="searchEmployee()"
-        />
+        <input type="text" placeholder="Search employee..." [(ngModel)]="searchText" (input)="searchEmployee()" />
       </div>
 
       <button class="btn-primary" (click)="openModal()">
@@ -45,12 +40,10 @@
             <button class="icon-btn edit" (click)="editEmployee(item)">
               <i class="fa fa-pencil"></i>
             </button>
-            <button
-              class="icon-btn delete"
-              (click)="deleteEmployee(item.empId)"
-            >
+            <button class="icon-btn delete" (click)="deleteEmployee(item.empId)">
               <i class="fa fa-trash"></i>
             </button>
+
           </td>
         </tr>
         }
@@ -58,6 +51,25 @@
     </table>
   </div>
 </div>
+
+<!--confimation popup-->
+@if (showDeletePopup) {
+<div class="popup-backdrop" *ngIf="showDeletePopup">
+  <div class="popup-card">
+    <h4>Confirm Delete</h4>
+    <p>Are you sure you want to delete this employee?</p>
+
+    <div class="popup-actions">
+      <button class="btn cancel" (click)="closeDeletePopup()">
+        Cancel
+      </button>
+      <button class="btn delete" (click)="confirmDelete()">
+        Yes, Delete
+      </button>
+    </div>
+  </div>
+</div>
+}
 
 <!-- MODAL -->
 @if (showModal) {
@@ -76,28 +88,20 @@
         <div class="row">
           <div class="form-group">
             <label>Employee Name</label>
-            <input
-              class="form-control"
-              formControlName="empName"
-              [class.invalid]="isInvalid('empName')"
-            />
+            <input class="form-control" formControlName="empName" [class.invalid]="isInvalid('empName')" />
             @if (employeeForm.get('empName')?.errors?.onlyAlphabets) {
-            <small class="error">Only letters allowed</small> 
-          } @else if
+            <small class="error">Only letters allowed</small>
+            } @else if
             (isInvalid('empName')) {
             <small class="error">Name must be at least 3 characters</small> }
           </div>
 
           <div class="form-group">
             <label>Contact No</label>
-            <input
-              class="form-control"
-              formControlName="contactNo"
-              [class.invalid]="isInvalid('contactNo')"
-            />
+            <input class="form-control" formControlName="contactNo" [class.invalid]="isInvalid('contactNo')" />
             @if (employeeForm.get('contactNo')?.errors?.mobile10) {
-            <small class="error">Enter exactly 10 digits</small> 
-          } @else if
+            <small class="error">Enter exactly 10 digits</small>
+            } @else if
             (isInvalid('contactNo')) {
             <small class="error">Enter a valid 10-digit contact number</small> }
           </div>
@@ -106,11 +110,7 @@
         <div class="row">
           <div class="form-group">
             <label>Email</label>
-            <input
-              class="form-control"
-              formControlName="email"
-              [class.invalid]="isInvalid('email')"
-            />
+            <input class="form-control" formControlName="email" [class.invalid]="isInvalid('email')" />
             @if (isInvalid('email')) {
             <small class="error">Enter a valid email address</small> }
           </div>
@@ -118,11 +118,7 @@
 
           <div class="form-group">
             <label>Department</label>
-            <input
-              class="form-control"
-              formControlName="deptName"
-              [class.invalid]="isInvalid('deptName')"
-            />
+            <input class="form-control" formControlName="deptName" [class.invalid]="isInvalid('deptName')" />
             @if (isInvalid('deptName')) {
             <small class="error">Department is required</small> }
           </div>
@@ -132,22 +128,14 @@
         <div class="row">
           <div class="form-group">
             <label>Designation</label>
-            <input
-              class="form-control"
-              formControlName="designation"
-              [class.invalid]="isInvalid('designation')"
-            />
+            <input class="form-control" formControlName="designation" [class.invalid]="isInvalid('designation')" />
             @if (isInvalid('designation')) {
             <small class="error">Designation is required</small> }
           </div>
 
           <div class="form-group">
             <label>Username</label>
-            <input
-              class="form-control"
-              formControlName="userName"
-              [class.invalid]="isInvalid('userName')"
-            />
+            <input class="form-control" formControlName="userName" [class.invalid]="isInvalid('userName')" />
             @if (isInvalid('userName')) {
             <small class="error">Username must be at least 4 characters</small>
             }
@@ -157,34 +145,26 @@
         <div class="row">
           <div class="form-group">
             <label>Password</label>
-            <input
-              type="password"
-              class="form-control"
-              formControlName="password"
-              [class.invalid]="isInvalid('password')"
-            />
-           @if (isInvalid('password') && employeeForm.get('password')?.errors?.['required']) {
-              <small class="error">Password is required</small>
+            <input type="password" class="form-control" formControlName="password"
+              [class.invalid]="isInvalid('password')" />
+            @if (isInvalid('password') && employeeForm.get('password')?.errors?.['required']) {
+            <small class="error">Password is required</small>
             }
 
             @if (isInvalid('password') && employeeForm.get('password')?.errors?.['minlength']) {
-              <small class="error">Password must be at least 8 characters</small>
+            <small class="error">Password must be at least 8 characters</small>
             }
 
             @if (isInvalid('password') && employeeForm.get('password')?.errors?.['strongPassword']) {
-              <small class="error">
-                Must include uppercase, lowercase, number & special character
-              </small>
+            <small class="error">
+              Must include uppercase, lowercase, number & special character
+            </small>
             }
 
           </div>
           <div class="form-group">
             <label>Role</label>
-            <select
-              class="form-control"
-              formControlName="role"
-              [class.invalid]="isInvalid('role')"
-            >
+            <select class="form-control" formControlName="role" [class.invalid]="isInvalid('role')">
               <option value="">Select Role</option>
               <option value="Employee">Employee</option>
               <option value="Hr">Hr</option>
@@ -199,9 +179,7 @@
         <button class="btn-secondary" type="button" (click)="closeModal()">
           Cancel
         </button>
-        <button
-          class="btn-primary"
-          type="button"
+        <button class="btn-primary" type="button"
           (click)="employeeForm.value.empId === 0 ? saveEmployee() : updateEmployee()">
           {{ employeeForm.value.empId === 0 ? "Save" : "Update" }}
         </button>
