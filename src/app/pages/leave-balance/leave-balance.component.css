@@ -115,3 +115,23 @@ label {
   box-shadow: 0 0 0 2px rgba(106, 90, 205, 0.15);
   outline: none;
 }
+
+/* ===== TABLE SAFETY FIX ===== */
+
+.card {
+  width: 100%;
+  overflow-x: auto;
+   -webkit-overflow-scrolling: touch;
+}
+
+.table{
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td{
+  white-space: nowrap;
+}
+
