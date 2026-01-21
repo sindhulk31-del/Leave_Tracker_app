@@ -2,6 +2,7 @@
 .page-container {
   padding: 20px;
   background: #f4f6f9;
+  overflow-x: auto;
 }
 
 /*responsive table*/
@@ -243,10 +244,10 @@ th {
 
 /* Only style the Role dropdown */
 .modal-body select[formControlName="role"] {
-  padding: 8px 30px 8px 10px; /* space for the arrow */
+  padding: 8px 30px 8px 10px; 
   border-radius: 6px;
   border: 1px solid #ccc;
-  appearance: none;         /* remove default browser arrow */
+  appearance: none;         
   -webkit-appearance: none;
   -moz-appearance: none;
   background-color: #fff;
@@ -289,24 +290,21 @@ th {
 }
 
 
-/* ========================================= */
-/* FULL EMPLOYEE PAGE RESPONSIVE FIXES       */
-/* ========================================= */
+/* ========================================= 
+    FULL EMPLOYEE PAGE RESPONSIVE FIXES       
+   ========================================= */
 
-/* Ensure table scrolls on small screens */
 .table-responsive {
   width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-/* Prevent column breaking */
 table th,
 table td {
   white-space: nowrap;
 }
 
-/* Action column fix */
 .action-cell {
   white-space: nowrap;
   text-align: center;
@@ -315,12 +313,19 @@ table td {
 /* ================= MOBILE ================= */
 
 @media (max-width: 768px) {
+  .card {
+  width: 100%;
+  overflow-x: auto;
+   -webkit-overflow-scrolling: touch;
+}
 
   /* Header stack */
   .header-bar {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   }
 
   .header-actions {
@@ -349,10 +354,14 @@ table td {
   /* Table font size */
   table {
     font-size: 14px;
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
   }
 
   th, td {
     padding: 8px;
+    white-space: nowrap;
   }
 
   /* Icons spacing */

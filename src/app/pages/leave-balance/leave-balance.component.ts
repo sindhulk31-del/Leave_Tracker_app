@@ -15,12 +15,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class LeaveBalanceComponent implements OnInit {
 
   masterSer = inject(MasterServiceService);
+  route = inject(ActivatedRoute);
+  router = inject(Router);
 
   @ViewChild('formModel') formModalViewChild!: ElementRef;
 
   allEmployeesList$: Observable<any[]> = new Observable<any[]>;
   leavaeBalanceList: any[] = [];
-
   groupedEmployees: any[] = [];
   selectedEmployee: any = null;
 
@@ -43,9 +44,6 @@ export class LeaveBalanceComponent implements OnInit {
       this.newLeaveBalance.updateBy = JSON.parse(localData).empId;
     }
   }
-
-  route = inject(ActivatedRoute);
-  router = inject(Router);
 
 
   ngOnInit(): void {
@@ -115,12 +113,12 @@ export class LeaveBalanceComponent implements OnInit {
 
   openModel() {
     this.showModal = true;
-    this.formModalViewChild.nativeElement.style.display = 'block';
+    // this.formModalViewChild.nativeElement.style.display = 'block';
   }
 
   closeModel() {
      this.showModal = false;
-    this.formModalViewChild.nativeElement.style.display = 'none';
+    // this.formModalViewChild.nativeElement.style.display = 'none';
    
   }
 
