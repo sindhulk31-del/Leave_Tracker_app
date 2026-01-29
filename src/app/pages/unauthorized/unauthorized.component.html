@@ -1,5 +1,9 @@
  <div class="unauth-box">
       <h2>🚫 Access Denied</h2>
       <p>You do not have permission to view this page.</p>
-      <button (click)="goBack()">Go Back</button>
+      <app-custom-button
+      label="Go Back"
+      btnClass="unauth-btn"
+      (clicked)="goBack()">
+      </app-custom-button>
     </div>

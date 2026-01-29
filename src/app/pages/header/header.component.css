@@ -22,22 +22,6 @@
   margin-right: 6px;
 }
 
-.btn-menu {
-  background: transparent;
-  color: #fff;
-  border: none;
-  font-size: 18px;
-}
-
-.btn-menu:hover {
-  color: #897ff9;
-}
-
-.btn-logout {
-  background-color: red;
-  color: #ffffff;
-  border: none;
-}
 
 .user-section {
   color: #ffffff;

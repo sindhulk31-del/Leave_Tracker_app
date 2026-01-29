@@ -5,10 +5,11 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../services/loader.service';
+import { CustomButtonComponent } from 'src/app/shared/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, CustomButtonComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet} from '@angular/router';
 import { RouterLink } from '@angular/router';
-
+import { CustomButtonComponent } from 'src/app/shared/custom-button/custom-button.component';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink],
+  imports: [CommonModule, RouterOutlet, RouterLink, CustomButtonComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })

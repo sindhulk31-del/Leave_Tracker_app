@@ -7,9 +7,13 @@
       <small class="text-muted">Employee leave overview</small>
     </div>
 
-    <button class=" btn-new-leave" (click)="openModel()">
-      <i class="fa fa-plus"></i> New Leave
-    </button>
+    <app-custom-button
+      label=" New Leave"
+      icon="fa fa-plus"
+      btnClass="btn-new-leave"
+      (clicked)="openModel()">
+    </app-custom-button>
+
   </div>
 
   <!-- ================= TABLE VIEW ================= -->
@@ -46,11 +50,11 @@
   <!-- ================= EMPLOYEE DETAIL ================= -->
   @if (selectedEmployee) {
 
- <button class="btn-btn-backTo"
-        (click)="router.navigate(['/leave-balance'])">
-  ← Back
-</button>
-
+    <app-custom-button
+      label="← Back"
+      btnClass="btn-btn-backTo"
+      (clicked)="backToTable()">
+    </app-custom-button>
 
   <h5>{{ selectedEmployee.empName }}</h5>
 
@@ -86,11 +90,14 @@
 <div class="modal-backdrop" (click)="closeModel()">
   <div class="modal-box" (click)="$event.stopPropagation()">
 
-
-
       <div class="modal-header">
         <h5 class="modal-title">Leave Balance</h5>
-        <button class="btn-close" (click)="closeModel()"></button>
+        <app-custom-button
+          icon="fa fa-times"
+          btnClass="btn-close"
+          (clicked)="closeModel()">
+        </app-custom-button>
+
       </div>
 
       <div class="modal-body">
@@ -125,8 +132,18 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="closeModel()">Cancel</button>
-        <button class="btn-new-save" (click)="onSaveBalance()">Save</button>
+        <app-custom-button
+          label="Cancel"
+          btnClass="btn btn-secondary"
+          (clicked)="closeModel()">
+        </app-custom-button>
+
+        <app-custom-button
+          label="Save"
+          btnClass="btn-new-save"
+          (clicked)="onSaveBalance()">
+        </app-custom-button>
+
       </div>
 
     </div>
