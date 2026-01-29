@@ -7,11 +7,11 @@ import { EmployeeModel } from '../../models/Empolyee';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../services/loader.service';
 import { CustomValidators } from 'src/app/Validators/custom-validators';
-
+import { CustomButtonComponent } from 'src/app/shared/custom-button/custom-button.component';
 @Component({
   selector: 'app-employee',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, CustomButtonComponent],
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.css']
 })

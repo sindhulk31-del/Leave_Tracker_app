@@ -1,0 +1,11 @@
+
+<button
+  [type]="type"
+  [disabled]="disabled"
+  [ngClass]="btnClass"
+  (click)="onClick()">
+
+  <i *ngIf="icon" [class]="icon"></i>
+  <span>{{ label }}</span>
+
+</button>

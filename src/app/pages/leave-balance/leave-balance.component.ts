@@ -4,11 +4,11 @@ import { MasterServiceService } from '../../service/master-service.service';
 import { AsyncPipe} from '@angular/common';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { CustomButtonComponent } from 'src/app/shared/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-leave-balance',
-  imports: [FormsModule, AsyncPipe],
+  imports: [FormsModule, AsyncPipe, CustomButtonComponent],
   templateUrl: './leave-balance.component.html',
   styleUrl: './leave-balance.component.css'
 })
@@ -24,6 +24,7 @@ export class LeaveBalanceComponent implements OnInit {
   leavaeBalanceList: any[] = [];
   groupedEmployees: any[] = [];
   selectedEmployee: any = null;
+  routeEmpId: number | null = null;
 
   showModal = false;
 
@@ -46,9 +47,24 @@ export class LeaveBalanceComponent implements OnInit {
   }
 
 
-  ngOnInit(): void {
-    this.getAllLeaveBalance();
-  }
+ngOnInit(): void {
+
+  this.route.paramMap.subscribe(params => {
+    const empId = Number(params.get('empId'));
+    this.routeEmpId = empId || null;
+
+    // if data already loaded
+    if (this.routeEmpId && this.groupedEmployees.length) {
+      this.selectEmployeeByRoute(this.routeEmpId);
+    }
+
+    if (!empId) {
+      this.selectedEmployee = null;
+    }
+  });
+
+  this.getAllLeaveBalance();
+}
 
   selectEmployeeByRoute(empId: number) {
   const emp = this.groupedEmployees.find(e => e.empId === empId);
@@ -58,19 +74,19 @@ export class LeaveBalanceComponent implements OnInit {
 }
 
 
-  getAllLeaveBalance() {
+getAllLeaveBalance() {
   this.masterSer.getAllLeave().subscribe({
     next: (result: any[]) => {
       this.leavaeBalanceList = result;
       this.groupEmployees();
 
-      const empId = Number(this.route.snapshot.paramMap.get('empId'));
-      if (empId) {
-        this.selectEmployeeByRoute(empId);
+      if (this.routeEmpId) {
+        this.selectEmployeeByRoute(this.routeEmpId);
       }
     }
   });
 }
+
 
 
   groupEmployees() {

@@ -3,11 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MasterServiceService } from '../../service/master-service.service';
-
+import { CustomButtonComponent } from 'src/app/shared/custom-button/custom-button.component';
 @Component({
   selector: 'app-leave-request',
   standalone: true,
-  imports: [FormsModule, DatePipe],
+  imports: [FormsModule, DatePipe, CustomButtonComponent],
   templateUrl: './leave-request.component.html',
   styleUrl: './leave-request.component.css'
 })

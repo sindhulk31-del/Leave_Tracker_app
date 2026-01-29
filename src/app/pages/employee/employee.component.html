@@ -9,9 +9,13 @@
         <input type="text" placeholder="Search employee..." [(ngModel)]="searchText" (input)="searchEmployee()" />
       </div>
 
-      <button class="btn-primary" (click)="openModal()">
-        <i class="fa fa-plus"></i> New Employee
-      </button>
+          <app-custom-button
+          label=" New Employee"
+          icon="fa fa-plus"
+          btnClass="btn-primary"
+          (clicked)="openModal()">
+          </app-custom-button>
+
     </div>
   </div>
 
@@ -37,12 +41,17 @@
           <td>{{ item.contactNo }}</td>
           <td>{{ item.email }}</td>
           <td class="action-cell">
-            <button class="icon-btn edit" (click)="editEmployee(item)">
-              <i class="fa fa-pencil"></i>
-            </button>
-            <button class="icon-btn delete" (click)="deleteEmployee(item.empId)">
-              <i class="fa fa-trash"></i>
-            </button>
+            <app-custom-button
+            icon="fa fa-pencil"
+            btnClass="icon-btn edit"
+            (clicked)="editEmployee(item)">
+          </app-custom-button>
+
+          <app-custom-button
+            icon="fa fa-trash"
+            btnClass="icon-btn delete"
+            (clicked)="deleteEmployee(item.empId)">
+          </app-custom-button>
 
           </td>
         </tr>
@@ -60,12 +69,18 @@
     <p>Are you sure you want to delete this employee?</p>
 
     <div class="popup-actions">
-      <button class="btn cancel" (click)="closeDeletePopup()">
-        Cancel
-      </button>
-      <button class="btn delete" (click)="confirmDelete()">
-        Yes, Delete
-      </button>
+        <app-custom-button
+        label="Cancel"
+        btnClass="btn-cancel"
+        (clicked)="closeDeletePopup()">
+      </app-custom-button>
+
+      <app-custom-button
+        label="Yes, Delete"
+        btnClass="btn-delete"
+        (clicked)="confirmDelete()">
+      </app-custom-button>
+
     </div>
   </div>
 </div>
@@ -79,7 +94,12 @@
       <h5>
         {{ employeeForm.value.empId === 0 ? "New Employee" : "Edit Employee" }}
       </h5>
-      <button class="close-btn" (click)="closeModal()">×</button>
+     <app-custom-button
+      icon="fa fa-times"
+      btnClass="closebtn"
+      (clicked)="closeModal()">
+    </app-custom-button>
+
     </div>
     <form [formGroup]="employeeForm">
 
@@ -176,13 +196,19 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn-secondary" type="button" (click)="closeModal()">
-          Cancel
-        </button>
-        <button class="btn-primary" type="button"
-          (click)="employeeForm.value.empId === 0 ? saveEmployee() : updateEmployee()">
-          {{ employeeForm.value.empId === 0 ? "Save" : "Update" }}
-        </button>
+
+        <app-custom-button
+        label = "Cancel"
+        btnClass = "btn-secondary"
+        (clicked) ="closeModal()" >
+        </app-custom-button>
+
+       <app-custom-button
+        [label]="employeeForm.value.empId === 0 ? 'Save' : 'Update'"
+        btnClass="btn-primary"
+        (clicked)="employeeForm.value.empId === 0 ? saveEmployee() : updateEmployee()">
+      </app-custom-button>
+
       </div>
     </form>
   </div>
