@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MasterServiceService } from '../../service/master-service.service';
 import { AsyncPipe} from '@angular/common';
@@ -18,7 +18,6 @@ export class LeaveBalanceComponent implements OnInit {
   route = inject(ActivatedRoute);
   router = inject(Router);
 
-  @ViewChild('formModel') formModalViewChild!: ElementRef;
 
   allEmployeesList$: Observable<any[]> = new Observable<any[]>;
   leavaeBalanceList: any[] = [];
@@ -129,13 +128,10 @@ getAllLeaveBalance() {
 
   openModel() {
     this.showModal = true;
-    // this.formModalViewChild.nativeElement.style.display = 'block';
   }
 
   closeModel() {
      this.showModal = false;
-    // this.formModalViewChild.nativeElement.style.display = 'none';
-   
   }
 
   onSaveBalance() {

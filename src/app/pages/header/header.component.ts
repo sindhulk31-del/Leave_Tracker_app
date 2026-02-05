@@ -1,41 +1,38 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet} from '@angular/router';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { CustomButtonComponent } from 'src/app/shared/custom-button/custom-button.component';
+
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, CustomButtonComponent],
+  imports: [CommonModule, RouterLink, RouterOutlet, CustomButtonComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  public menuOpen = false;
-  public userName = '';
-  public role = '';
+  isCollapsed = false;
+  userName = '';
+  role = '';
 
   constructor(private router: Router) {}
 
   ngOnInit() {
-  const localData = localStorage.getItem('leaveUser');
-  if (localData != null) {
-    const parseObj = JSON.parse(localData);
-    this.userName = parseObj.userName;
-    this.role = parseObj.role;
-  }
+    const data = localStorage.getItem('leaveUser');
+    if (data) {
+      const obj = JSON.parse(data);
+      this.userName = obj.userName;
+      this.role = obj.role;
+    }
   }
 
-  toggleMenu() {
-    this.menuOpen = !this.menuOpen;
+  toggleSidebar() {
+    this.isCollapsed = !this.isCollapsed;
   }
 
   logout() {
-    try{
     localStorage.removeItem('leaveUser');
-  }catch(err){
-    }
     this.router.navigate(['/login']);
   }
 }

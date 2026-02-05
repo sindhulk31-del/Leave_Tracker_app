@@ -25,7 +25,7 @@ button.btn-login:hover {
 
 @media (max-width: 768px) {
   button.btn-login {
-    width: 100%;
+    width: 220px ;
   }
 }
 

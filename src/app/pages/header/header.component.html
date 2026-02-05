@@ -1,47 +1,65 @@
-<nav class="navbar leave-navbar flex-column align-items-stretch">
+<div class="layout">
 
-  <div class="nav-top w-100 d-flex align-items-center justify-content-between px-3">
-    
-    <div class="d-flex align-items-center" >
+  <!-- SIDEBAR -->
+  <aside class="sidebar" [class.collapsed]="isCollapsed">
+
+    <!-- TOP -->
+    <div class="sidebar-header">
       <app-custom-button
-      icon="fa fa-bars"
-      btnClass = "btn-menu"
-      (clicked)="toggleMenu() ">
-    </app-custom-button>
+        icon="fa fa-bars"
+        btnClass="btn-menu"
+        (clicked)="toggleSidebar()">
+      </app-custom-button>
 
-      <span class="navbar-brand mb-0">
-        Leave Admin
-      </span>
+      <span class="brand" *ngIf="!isCollapsed">Leave Admin</span>
     </div>
 
-    <div class="user-section">
-      <i class="fa fa-user"></i> {{ userName }}
-        <app-custom-button
-        label="Logout"
+    <!-- MENU -->
+    <nav class="menu">
+      <a routerLink="/employee" *ngIf="role === 'Hr'">
+        <i class="fa fa-users"></i>
+        <span *ngIf="!isCollapsed">Employees</span>
+      </a>
+
+      <a routerLink="/leave-balance" *ngIf="role === 'Hr'">
+        <i class="fa fa-bar-chart"></i>
+        <span *ngIf="!isCollapsed">Leave Balance</span>
+      </a>
+
+      <a routerLink="/leave-request">
+        <i class="fa fa-envelope"></i>
+        <span *ngIf="!isCollapsed">Leave Request</span>
+      </a>
+    </nav>
+
+    <!-- FOOTER -->
+    <div class="sidebar-footer">
+
+      <!-- USER INFO -->
+      <div class="user-info">
+        <i class="fa fa-user-circle"></i>
+
+        <div class="user-text" *ngIf="!isCollapsed">
+          <div class="user-name">{{ userName }}</div>
+          <div class="user-role">{{ role }}</div>
+        </div>
+      </div>
+
+      <!-- LOGOUT -->
+      <app-custom-button
+        [label]="!isCollapsed ? 'Logout' : ''"
         icon="fa fa-sign-out"
         btnClass="btn-logout"
         (clicked)="logout()">
       </app-custom-button>
+
     </div>
-  </div>
 
-  <div class="menu-items w-100" *ngIf="menuOpen" >
-    @if (role=='Hr'){
-      <a routerLink="employee" class="menu-link">
-        <i class="fa fa-users"></i> Employees
-      </a>
+  </aside>
 
-      <a routerLink="leave-balance" class="menu-link">
-        <i class="fa fa-bar-chart"></i> Leave Balance
-      </a>
-    }
+  <!-- CONTENT -->
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
 
-    <a routerLink="leave-request" class="menu-link">
-      <i class="fa fa-envelope"></i> Leave Request
-    </a>
-  </div>
-</nav>
-
-<div class="content">
-  <router-outlet></router-outlet>
 </div>
