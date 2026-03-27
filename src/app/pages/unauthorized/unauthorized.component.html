@@ -1,9 +1,17 @@
- <div class="unauth-box">
-      <h2>🚫 Access Denied</h2>
-      <p>You do not have permission to view this page.</p>
-      <app-custom-button
-      label="Go Back"
-      btnClass="unauth-btn"
-      (clicked)="goBack()">
-      </app-custom-button>
-    </div>
+<div class="h-screen flex flex-col justify-center items-center bg-[#f4f6f9] text-center">
+
+  <h2 class="text-2xl font-semibold mb-2">
+    🚫 Access Denied
+  </h2>
+
+  <p class="text-gray-600">
+    You do not have permission to view this page.
+  </p>
+
+  <app-custom-button
+    label="Go Back"
+    btnClass="mt-[15px] px-4 py-2 bg-[#6a5acd] text-white rounded hover:opacity-90 transition"
+    (clicked)="goBack()">
+  </app-custom-button>
+
+</div>

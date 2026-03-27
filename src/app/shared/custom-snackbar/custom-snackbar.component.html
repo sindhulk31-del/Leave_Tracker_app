@@ -1,0 +1,11 @@
+<div class="snackbar-container" [ngClass]="data.type">
+  
+  <mat-icon class="icon">{{ getIcon(data.type) }}</mat-icon>
+
+  <span class="message">{{ data.message }}</span>
+
+  <button class="close-btn" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+</div>

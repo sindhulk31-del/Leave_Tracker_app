@@ -7,8 +7,8 @@
 /* SIDEBAR */
 .sidebar {
   width: 240px;
-  background: #6a5acd;
-  color: #fff;
+  background: #fff;
+  color: #6a5acd;
   display: flex;
   flex-direction: column;
   transition: width 0.3s;
@@ -25,7 +25,7 @@
   align-items: center;
   gap: 10px;
   padding: 0 15px;
-  border-bottom: 1px solid #897ff9;
+  border-bottom: 1px solid #eaeaea;
 }
 
 .brand {
@@ -39,28 +39,41 @@
   overflow: hidden; 
 }
 
-.menu a {
+.menu a{
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 12px 20px;
-  color: #eaeaea;
+  color:  #6a5acd;
   text-decoration: none;
-  border-bottom: 1px solid #897ff9;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.menu a.active-link {
+  background: #6a5acd;
+  color: #fff;
 }
 
 .menu a:hover {
-  background: #897ff9;
+  background: #6a5acd;
+  color: #fff;
 }
 
 .sidebar.collapsed .menu a {
   justify-content: center;
+  
 }
+.sidebar.collapsed .menu a.active-link {
+  background: #6a5acd;
+  color: #fff;
+  justify-content: center;
+}
+
 
 /* FOOTER */
 .sidebar-footer {
   padding: 12px;
-  border-top: 1px solid #897ff9;
+  border-top: 1px solid #eaeaea;
 }
 
 /* USER */
@@ -93,7 +106,7 @@
 /* BUTTONS */
 .btn-menu {
   background: transparent;
-  color: #fff;
+  color: #6a5acd;
   border: none;
 }
 
@@ -107,6 +120,7 @@
 .sidebar.collapsed .btn-logout {
   width: auto;
   padding: 8px;
+
 }
 
 /* CONTENT */

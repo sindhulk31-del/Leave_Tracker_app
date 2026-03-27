@@ -1,201 +1,107 @@
-@if (isHR) {
-  <div class="mb-3 d-flex gap-2">
+<div class="p-4 bg-gray-50 min-h-screen">
 
-    <app-custom-button
-      label="My Leave Requests"
-      [btnClass]="
-        'btn-tab ' + (activeTab === 'my' ? 'btn-primary' : 'btn-outline-primary')
-      "
-      (clicked)="switchTab('my')">
-    </app-custom-button>
-
-    <app-custom-button
-      label="All Employee Leave Requests"
-      [btnClass]="
-        'btn-tab ' + (activeTab === 'all' ? 'btn-primary' : 'btn-outline-primary')
-      "
-      (clicked)="switchTab('all')">
-    </app-custom-button>
-
+  @if (isHR) {
+  <div class="mb-6 flex p-1 bg-gray-200/50 rounded w-fit border border-gray-200">
+    <button (click)="switchTab('my')" 
+      [ngClass]="activeTab === 'my' ? 'bg-white text-[#6a5acd] shadow-sm' : 'text-gray-500 hover:text-gray-700'"
+      class="px-6 py-2 text-xs font-bold rounded transition-all duration-200 cursor-pointer">
+      My Requests
+    </button>
+    <button (click)="switchTab('all')" 
+      [ngClass]="activeTab === 'all' ? 'bg-white text-[#6a5acd] shadow-sm' : 'text-gray-500 hover:text-gray-700'"
+      class="px-6 py-2 text-xs font-bold rounded transition-all duration-200 cursor-pointer">
+      All Employees
+    </button>
   </div>
-}
+  }
 
+  @if (!isHR || (isHR && activeTab === 'my')) {
 
-  <!-- ================= HR VIEW ================= -->
-  @if (isHR && activeTab === 'all' && uniqueEmployees.length && !selectedEmployeeRequests.length) {
-
-<div class="card shadow-sm">
-  <div class="card-header ">
-    All Employee Leave Requests
-  </div>
-
-  <div class="card-body table-responsive">
-    <table class="table table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>Sl.No</th>
-          <th>Employee ID</th>
-          <th>Employee</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (emp of uniqueEmployees; track $index) {
-        <tr style="cursor:pointer"
-        (click)="router.navigate(['/leave-request/all', emp.empId])">
-
-          <td>{{ $index + 1 }}</td>
-          <td>{{ emp.empId }}</td>
-          <td>{{ emp.empName }}</td>
-        </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-</div>
-
-}
-
-
-  @if (isHR && activeTab === 'all'  && selectedEmployeeRequests.length) {
-
-    <app-custom-button
-      label="← Back"
-      btnClass="btn-go-back"
-      (clicked)="goBack()">
-    </app-custom-button>
-
-
-<div class="card shadow-sm">
-  <div class="card-header ">
-    {{ selectedEmployeeName }} - Leave Requests
-  </div>
-
-  <div class="card-body">
-    <div class="row g-3">
-      @for (item of selectedEmployeeRequests; track $index) {
-      <div class="col-md-6">
-        <div class="border rounded p-3">
-          <strong>LeaveType: {{ item.leaveType }}</strong>
-          <p class="small text-muted">
-            From: {{ item.fromDate | date:'dd-MM-yyyy' }} →
-            To: {{ item.toDate | date:'dd-MM-yyyy' }}
-          <br>
-          Reason: {{ item.reason }}</p>
-        </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+    <div class="bg-white p-5 rounded-xl border border-blue-100 shadow-sm flex items-center justify-between">
+      <div>
+        <p class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">Paid Leave Balance</p>
+        <h2 class="text-2xl font-black text-blue-700">{{ pendingPaidLeave }} Days</h2>
       </div>
-      }
+      <i class="fa fa-calendar-check text-blue-200 text-2xl"></i>
+    </div>
+
+    <div class="bg-white p-5 rounded-xl border border-green-100 shadow-sm flex items-center justify-between">
+      <div>
+        <p class="text-[10px] font-bold text-green-500 uppercase tracking-widest">Sick Leave Balance</p>
+        <h2 class="text-2xl font-black text-green-700">{{ pendingSickLeave }} Days</h2>
+      </div>
+      <i class="fa fa-hand-holding-medical text-green-200 text-2xl"></i>
     </div>
   </div>
-</div>
 
-}
-
-
-  <!-- ================= EMPLOYEE VIEW ================= -->
-@if (!isHR || (isHR && activeTab === 'my')) {
-
-<div class="card shadow-sm">
-  <div class="card-myHeader ">
-    <span>My Leave Requests</span>
-    <app-custom-button
-      label=" + Request Leave"
-      btnClass="btn-request-leave"
-      (clicked)="openPopup()">
-    </app-custom-button>
-  </div>
-
-  <div class="card-body">
-    <div class="row g-3">
-      @for (item of leaveRequests; track $index) {
-      <div class="col-md-4">
-        <div class="border rounded p-3">
-          <strong>LeaveType: {{ item.leaveType }}</strong>
-          <p class="small text-muted">
-            From: {{ item.fromDate | date:'dd-MM-yyyy' }} →
-            To: {{ item.toDate | date:'dd-MM-yyyy' }}
-          </p>
-          <p class="mb-0"> Reason: {{ item.reason }}</p>
-        </div>
-      </div>
-      }
-    </div>
-  </div>
-</div>
-
-}
-
- @if (showRequestPopup) {
-<div class="modal-backdrop-custom">
-
-  <div class="modal-card ">
-    <div class="modal-header text-black d-flex justify-content-between align-items-center">
-      <h5 class="mb-0">Request Leave</h5>
-      <app-custom-button
-      icon="fa fa-times"
-      btClass="close-btn"
-      (clicked)="closePopup() ">
-    </app-custom-button>
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
     
+    <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-white">
+      <h3 class="text-sm font-bold text-gray-800 uppercase tracking-wide">My Leave Requests</h3>
+      <app-custom-button label="New Request" icon="fa fa-plus"
+        btnClass="bg-[#6a5acd] text-white px-4 py-2 rounded text-xs font-bold shadow-md hover:opacity-90 transition-all cursor-pointer"
+        (clicked)="openPopup()">
+      </app-custom-button>
     </div>
 
-    <div class="modal-body">
-      <form>
-
-        <div class="row">
-          <div class="col-6 mb-3">
-            <label>From</label>
-            <input type="date"
-                   [(ngModel)]="newLeaveRequestObj.fromDate"
-                   name="fromDate"
-                   class="form-control form-control-sm">
-          </div>
-
-          <div class="col-6 mb-3">
-            <label>To</label>
-            <input type="date"
-                   [(ngModel)]="newLeaveRequestObj.toDate"
-                   name="toDate"
-                   class="form-control form-control-sm">
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label>Leave Type</label>
-          <select class="form-select form-select-sm"
-                  [(ngModel)]="newLeaveRequestObj.leaveType"
-                  name="leaveType">
-            <option value="">Select</option>
-            <option value="sickLeave">Sick Leave</option>
-            <option value="paidLeave">Paid Leave</option>
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label>Reason</label>
-          <textarea rows="3"
-                    [(ngModel)]="newLeaveRequestObj.reason"
-                    name="reason"
-                    class="form-control form-control-sm"></textarea>
-        </div>
-
-        <div class="d-flex justify-content-end">
-        <app-custom-button
-          label="Cancel"
-          btnClass="btn-cancel-sm"
-          (clicked)="onCancelLeaveRequest()">
-        </app-custom-button>
-
-        <app-custom-button
-          label="Submit"
-          btnClass="btn-leave-submit"
-          (clicked)="onSaveLeaveRequest()">
-        </app-custom-button>
-
-        </div>
-
-      </form>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-gray-50/50 [&>th]:px-6 [&>th]:py-3 [&>th]:text-[11px] [&>th]:font-bold [&>th]:text-gray-400 [&>th]:uppercase">
+            <th>Leave Type</th>
+            <th>From Date</th>
+            <th>To Date</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          @for (item of leaveRequests; track $index) {
+          <tr class="hover:bg-gray-50/50 transition-colors">
+            <td class="px-6 py-4">
+              <span [ngClass]="item.leaveType === 'sickLeave' ? 'text-green-600 bg-green-50' : 'text-blue-600 bg-blue-50'"
+                class="px-2 py-1 rounded text-[10px] font-bold uppercase border border-current opacity-80">
+                {{ item.leaveType }}
+              </span>
+            </td>
+            <td class="px-6 py-4 text-xs font-medium text-gray-700">
+              {{ item.fromDate | date:'dd-MM-yyyy' }}
+            </td>
+            <td class="px-6 py-4 text-xs font-medium text-gray-700">
+              {{ item.toDate | date:'dd-MM-yyyy' }}
+            </td>
+            <td class="px-6 py-4 text-xs text-gray-600">
+              {{ item.reason }}
+            </td>
+          </tr>
+          }
+          @if (leaveRequests.length === 0) {
+            <tr>
+              <td colspan="4" class="px-6 py-8 text-center text-gray-400 text-xs">No records found.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
   </div>
+  }
+
+  @if (isHR && activeTab === 'all') {
+  <app-all-employee-leave-request
+    [uniqueEmployees]="uniqueEmployees"
+    [selectedEmployeeRequests]="selectedEmployeeRequests"
+    [selectedEmployeeName]="selectedEmployeeName"
+    (openEmployee)="openEmployee($event)"
+    (goBack)="goBack()">
+  </app-all-employee-leave-request>
+  }
 
 </div>
+
+@if (showRequestPopup) {
+<app-leave-request-form
+  [empId]="newLeaveRequestObj.empId"
+  (submitForm)="onSaveLeaveRequest($event)"
+  (cancelForm)="onCancelLeaveRequest()">
+</app-leave-request-form>
 }

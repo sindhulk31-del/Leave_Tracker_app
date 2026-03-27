@@ -1,0 +1,148 @@
+@if (showModal) {
+<div class="fixed inset-0 z-[1500] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm" (click)="closeModal()">
+  
+  <div class="w-full max-w-[700px] bg-white rounded-xl shadow-2xl overflow-hidden mx-4 transform transition-all" (click)="$event.stopPropagation()">
+    
+    <div class="px-6 py-4 bg-[#6a5acd] text-white flex justify-between items-center">
+      <div>
+        <h5 class="text-base font-bold m-0 uppercase tracking-wide">
+          {{ employeeForm.value.empId === 0 ? 'Create New Employee' : 'Edit Employee Profile' }}
+        </h5>
+        <p class="text-[10px] opacity-80 m-0">Please ensure all required fields are filled correctly.</p>
+      </div>
+      <app-custom-button 
+        icon="fa fa-times" 
+        btnClass="text-white hover:bg-white/20 p-2 rounded-full transition-all cursor-pointer" 
+        (clicked)="closeModal()">
+      </app-custom-button>
+    </div>
+
+    <form [formGroup]="employeeForm" (ngSubmit)="submit()" class="p-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1">
+        
+        <div class="flex flex-col mb-3">
+          <label class="text-[11px] font-bold text-gray-500 uppercase mb-1 ml-1">Employee Name</label>
+          <input type="text" formControlName="empName"
+            class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#6a5acd]/20 focus:border-[#6a5acd] outline-none transition-all"
+            [class.border-red-500]="isInvalid('empName')" placeholder="Enter full name" />
+          <div class="h-4">
+            <small class="text-red-500 text-[10px] font-medium" *ngIf="isInvalid('empName')">
+              <i class="fa fa-exclamation-circle mr-1"></i>Name is required (min. 3 characters)
+            </small>
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3">
+          <label class="text-[11px] font-bold text-gray-500 uppercase mb-1 ml-1">Contact No</label>
+          <input type="text" formControlName="contactNo"
+            class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#6a5acd]/20 focus:border-[#6a5acd] outline-none transition-all"
+            [class.border-red-500]="isInvalid('contactNo')" placeholder="10-digit mobile" />
+          <div class="h-4">
+            <small class="text-red-500 text-[10px] font-medium" *ngIf="isInvalid('contactNo')">
+              Enter a valid 10-digit number
+            </small>
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3">
+          <label class="text-[11px] font-bold text-gray-500 uppercase mb-1 ml-1">Email Address</label>
+          <input type="email" formControlName="email"
+            class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#6a5acd]/20 focus:border-[#6a5acd] outline-none transition-all"
+            [class.border-red-500]="isInvalid('email')" placeholder="example@mail.com" />
+          <div class="h-4">
+            <small class="text-red-500 text-[10px] font-medium" *ngIf="isInvalid('email')">
+              Please enter a valid email
+            </small>
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3">
+          <label class="text-[11px] font-bold text-gray-500 uppercase mb-1 ml-1">Department</label>
+          <input type="text" formControlName="deptName"
+            class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#6a5acd]/20 focus:border-[#6a5acd] outline-none transition-all"
+            [class.border-red-500]="isInvalid('deptName')" placeholder="e.g. IT, HR, Sales" />
+          <div class="h-4">
+            <small class="text-red-500 text-[10px] font-medium" *ngIf="isInvalid('deptName')">Department is required</small>
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3">
+          <label class="text-[11px] font-bold text-gray-500 uppercase mb-1 ml-1">Designation</label>
+          <input type="text" formControlName="designation"
+            class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#6a5acd]/20 focus:border-[#6a5acd] outline-none transition-all"
+            [class.border-red-500]="isInvalid('designation')" placeholder="e.g. Software Engineer" />
+          <div class="h-4">
+            <small class="text-red-500 text-[10px] font-medium" *ngIf="isInvalid('designation')">Designation is required</small>
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3">
+          <label class="text-[11px] font-bold text-gray-500 uppercase mb-1 ml-1">Username</label>
+          <input type="text" formControlName="userName"
+            class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#6a5acd]/20 focus:border-[#6a5acd] outline-none transition-all"
+            [class.border-red-500]="isInvalid('userName')" />
+          <div class="h-4">
+            <small class="text-red-500 text-[10px] font-medium" *ngIf="isInvalid('userName')">Username is required</small>
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3 relative">
+          <label class="text-[11px] font-bold text-gray-500 uppercase mb-1 ml-1">
+            Password
+          </label>
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            class="border border-gray-300 rounded-lg px-3 py-2 pr-10 text-sm focus:ring-2 focus:ring-[#6a5acd]/20 focus:border-[#6a5acd] outline-none transition-all"
+            [class.border-red-500]="isInvalid('password')"
+          />
+          <button 
+            type="button"
+            (click)="togglePassword()"
+            class="absolute right-3 top-[34px] text-slate-400 hover:text-[#6a5acd]">
+            <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+          </button>
+          <div class="h-4">
+            <small 
+              class="text-red-500 text-[10px] font-medium" 
+              *ngIf="isInvalid('password')">
+              Password is required
+            </small>
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3">
+          <label class="text-[11px] font-bold text-gray-500 uppercase mb-1 ml-1">Role</label>
+          <select formControlName="role"
+            class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#6a5acd]/20 focus:border-[#6a5acd] outline-none transition-all appearance-none bg-white"
+            [class.border-red-500]="isInvalid('role')">
+            <option value="">Select Role</option>
+            <option value="Employee">Employee</option>
+            <option value="Hr">Hr</option>
+          </select>
+          <div class="h-4">
+            <small class="text-red-500 text-[10px] font-medium" *ngIf="isInvalid('role')">Role is required</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 pt-5 border-t border-gray-100 flex justify-end gap-3">
+        <app-custom-button 
+          label="Discard" 
+          btnClass="px-6 py-2 rounded border border-gray-300 text-gray-600 font-bold hover:bg-gray-50 transition-all text-xs cursor-pointer" 
+          (clicked)="closeModal()">
+        </app-custom-button>
+
+        <app-custom-button 
+          [label]="employeeForm.value.empId === 0 ? 'Save' : 'Update'" 
+          [disabled]="employeeForm.invalid"
+          [btnClass]="employeeForm.invalid ? 
+            'px-6 py-2 rounded bg-gray-300 text-gray-500 font-bold text-xs cursor-not-allowed' : 
+            'px-6 py-2 rounded bg-[#6a5acd] text-white font-bold shadow-md hover:shadow-lg active:scale-95 transition-all text-xs cursor-pointer'" 
+          (clicked)="submit()">
+        </app-custom-button>
+      </div>
+    </form>
+  </div>
+</div>
+}

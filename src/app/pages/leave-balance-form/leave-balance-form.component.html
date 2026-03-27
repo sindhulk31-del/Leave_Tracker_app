@@ -1,0 +1,90 @@
+@if (showModal) {
+<div class="fixed inset-0 z-[1500] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm" (click)="closeModal()">
+  
+  <div class="w-full max-w-[700px] bg-white rounded-xl shadow-2xl overflow-hidden mx-4 transform transition-all animate-[fadeIn_.3s_ease]" (click)="$event.stopPropagation()">
+    
+    <div class="px-6 py-4 bg-[#6a5acd] text-white flex justify-between items-center">
+      <div>
+        <h5 class="text-base font-bold m-0 uppercase tracking-wide">
+          Update Leave Balance
+        </h5>
+        <p class="text-[10px] opacity-80 m-0">Please ensure the employee and count are correct.</p>
+      </div>
+      <app-custom-button 
+        icon="fa fa-times" 
+        btnClass="text-white transition-all cursor-pointer" 
+        (clicked)="closeModal()">
+      </app-custom-button>
+    </div>
+
+    <form [formGroup]="leaveForm" (ngSubmit)="submit()" class="p-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1">
+        
+        <div class="flex flex-col mb-3">
+          <label class="text-[11px] font-bold text-gray-500 uppercase mb-1 ml-1">Employee</label>
+          <select formControlName="empId"
+            class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#6a5acd]/20 focus:border-[#6a5acd] outline-none transition-all appearance-none bg-white"
+            [class.border-red-500]="leaveForm.get('empId')?.touched && leaveForm.get('empId')?.value === 0">
+            <option value="0">Select Employee</option>
+            @for (emp of employees$ | async; track $index) {
+              <option [value]="emp.empId">{{ emp.empName }}</option>
+            }
+          </select>
+          <div class="h-4">
+            <small class="text-red-500 text-[10px] font-medium" *ngIf="leaveForm.get('empId')?.touched && leaveForm.get('empId')?.value === 0">
+              <i class="fa fa-exclamation-circle mr-1"></i>Employee selection is required
+            </small>
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3">
+          <label class="text-[11px] font-bold text-gray-500 uppercase mb-1 ml-1">Leave Type</label>
+          <select formControlName="leaveType"
+            class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#6a5acd]/20 focus:border-[#6a5acd] outline-none transition-all appearance-none bg-white"
+            [class.border-red-500]="leaveForm.get('leaveType')?.touched && leaveForm.get('leaveType')?.invalid">
+            <option value="">Select Type</option>
+            <option value="paidLeave">Paid Leave</option>
+            <option value="sickLeave">Sick Leave</option>
+          </select>
+          <div class="h-4">
+            <small class="text-red-500 text-[10px] font-medium" *ngIf="leaveForm.get('leaveType')?.touched && leaveForm.get('leaveType')?.invalid">
+              <i class="fa fa-exclamation-circle mr-1"></i>Leave type is required
+            </small>
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3">
+          <label class="text-[11px] font-bold text-gray-500 uppercase mb-1 ml-1">Leave Count</label>
+          <input type="number" formControlName="count"
+            class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#6a5acd]/20 focus:border-[#6a5acd] outline-none transition-all"
+            [class.border-red-500]="leaveForm.get('count')?.touched && leaveForm.get('count')?.invalid" 
+            placeholder="Enter days" />
+          <div class="h-4">
+            <small class="text-red-500 text-[10px] font-medium" *ngIf="leaveForm.get('count')?.touched && leaveForm.get('count')?.invalid">
+              <i class="fa fa-exclamation-circle mr-1"></i>Minimum 1 required
+            </small>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-4 pt-5 border-t border-gray-100 flex justify-end gap-3">
+        <app-custom-button 
+          label="Discard" 
+          btnClass="px-6 py-2 rounded border border-gray-300 text-gray-600 font-bold hover:bg-gray-50 transition-all text-xs cursor-pointer" 
+          (clicked)="closeModal()">
+        </app-custom-button>
+
+        <app-custom-button 
+          label="Save Balance" 
+          [disabled]="leaveForm.invalid || leaveForm.get('empId')?.value === 0"
+          [btnClass]="(leaveForm.invalid || leaveForm.get('empId')?.value === 0) ? 
+            'px-6 py-2 rounded bg-gray-300 text-gray-500 font-bold text-xs cursor-not-allowed' : 
+            'px-6 py-2 rounded bg-[#6a5acd] text-white font-bold shadow-md hover:shadow-lg active:scale-95 transition-all text-xs cursor-pointer'" 
+          (clicked)="submit()">
+        </app-custom-button>
+      </div>
+    </form>
+  </div>
+</div>
+}

@@ -1,0 +1,92 @@
+<div class="fixed inset-0 z-[1500] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm" (click)="cancel()">
+  
+  <div class="w-full max-w-[600px] bg-white rounded-xl shadow-2xl overflow-hidden mx-4 transform transition-all animate-[fadeIn_.3s_ease]" (click)="$event.stopPropagation()">
+    
+    <div class="px-6 py-4 bg-[#6a5acd] text-white flex justify-between items-center">
+      <div>
+        <h5 class="text-base font-bold m-0 uppercase tracking-wide">New Leave Request</h5>
+        <p class="text-[10px] opacity-80 m-0">Apply for leave</p>
+      </div>
+      <app-custom-button 
+        icon="fa fa-times" 
+        btnClass="text-white  p-2 transition-all cursor-pointer" 
+        (clicked)="cancel()">
+      </app-custom-button>
+    </div>
+
+    <form [formGroup]="leaveForm" (ngSubmit)="submit()" class="p-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1">
+
+        <div class="flex flex-col mb-3">
+          <label class="text-[11px] font-bold text-gray-500 uppercase mb-1 ml-1">From Date</label>
+          <input type="date" formControlName="fromDate"
+            class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#6a5acd]/20 focus:border-[#6a5acd] outline-none transition-all"
+            [class.border-red-500]="leaveForm.get('fromDate')?.touched && leaveForm.get('fromDate')?.invalid" />
+          <div class="h-4">
+            <small class="text-red-500 text-[10px] font-medium" *ngIf="leaveForm.get('fromDate')?.touched && leaveForm.get('fromDate')?.invalid">
+              Start date is required
+            </small>
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3">
+          <label class="text-[11px] font-bold text-gray-500 uppercase mb-1 ml-1">To Date</label>
+          <input type="date" formControlName="toDate"
+            class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#6a5acd]/20 focus:border-[#6a5acd] outline-none transition-all"
+            [class.border-red-500]="leaveForm.get('toDate')?.touched && leaveForm.get('toDate')?.invalid" />
+          <div class="h-4">
+            <small class="text-red-500 text-[10px] font-medium" *ngIf="leaveForm.get('toDate')?.touched && leaveForm.get('toDate')?.invalid">
+              End date is required
+            </small>
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3 md:col-span-2">
+          <label class="text-[11px] font-bold text-gray-500 uppercase mb-1 ml-1">Leave Type</label>
+          <select formControlName="leaveType"
+            class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#6a5acd]/20 focus:border-[#6a5acd] outline-none transition-all bg-white"
+            [class.border-red-500]="leaveForm.get('leaveType')?.touched && leaveForm.get('leaveType')?.invalid">
+            <option value="">Select Leave Type</option>
+            <option value="sickLeave">sickLeave</option>
+            <option value="paidLeave">paidLeave</option>
+          </select>
+          <div class="h-4">
+            <small class="text-red-500 text-[10px] font-medium" *ngIf="leaveForm.get('leaveType')?.touched && leaveForm.get('leaveType')?.invalid">
+              Leave type is required
+            </small>
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-1 md:col-span-2">
+          <label class="text-[11px] font-bold text-gray-500 uppercase mb-1 ml-1">Reason</label>
+          <textarea formControlName="reason" rows="3"
+            class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#6a5acd]/20 focus:border-[#6a5acd] outline-none transition-all resize-none"
+            [class.border-red-500]="leaveForm.get('reason')?.touched && leaveForm.get('reason')?.invalid"></textarea>
+          <div class="h-4">
+            <small class="text-red-500 text-[10px] font-medium" *ngIf="leaveForm.get('reason')?.touched && leaveForm.get('reason')?.invalid">
+              Reason is required
+            </small>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-2 pt-2  border-gray-100 flex justify-end gap-3">
+        <app-custom-button 
+          label="Discard" 
+          btnClass="px-6 py-2 rounded border border-gray-300 text-gray-600 font-bold hover:bg-gray-50 transition-all text-xs cursor-pointer" 
+          (clicked)="cancel()">
+        </app-custom-button>
+
+        <app-custom-button 
+          label="Submit" 
+          [disabled]="leaveForm.invalid"
+          [btnClass]="leaveForm.invalid ? 
+            'px-6 py-2 rounded bg-gray-300 text-gray-500 font-bold text-xs cursor-not-allowed' : 
+            'px-6 py-2 rounded bg-[#6a5acd] text-white font-bold shadow-md hover:shadow-lg transition-all text-xs cursor-pointer'" 
+          (clicked)="submit()">
+        </app-custom-button>
+      </div>
+    </form>
+  </div>
+</div>

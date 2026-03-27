@@ -1,23 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-import { EmployeeService } from '../../services/employee.service';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { EmployeeModel } from '../../models/Empolyee';
-import { ToastrService } from 'ngx-toastr';
-import { LoaderService } from '../../services/loader.service';
-import { CustomValidators } from 'src/app/Validators/custom-validators';
 import { CustomButtonComponent } from 'src/app/shared/custom-button/custom-button.component';
+import { EmployeeFormComponent } from '../employee-form/employee-form.component';
+import { CustomValidators } from 'src/app/Validators/custom-validators';
+import { MasterServiceService } from 'src/app/service/master-service.service';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/service/notification.service';
 @Component({
   selector: 'app-employee',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, CustomButtonComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    CustomButtonComponent,
+    EmployeeFormComponent,
+    MatSnackBarModule
+  ],
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.css']
 })
 export class EmployeeComponent implements OnInit {
-
-  employeeForm!: FormGroup;
 
   employeeList: EmployeeModel[] = [];
   filteredEmployees: EmployeeModel[] = [];
@@ -25,24 +29,26 @@ export class EmployeeComponent implements OnInit {
   showModal = false;
   searchText = '';
 
+  selectedEmployee: EmployeeModel | null = null;
+
   selectedEmpId: number | null = null;
   showDeletePopup = false;
+ employeeForm!: FormGroup;
 
   constructor(
-    private empService: EmployeeService,
     private fb: FormBuilder,
-    private toastr: ToastrService,
-    public loader: LoaderService
-  ) { }
+   private masterSer: MasterServiceService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.createForm();
     this.loadEmployees();
   }
 
+  
   createForm() {
     this.employeeForm = this.fb.group({
-
       empId: 0,
 
       empName: ['', [
@@ -64,7 +70,6 @@ export class EmployeeComponent implements OnInit {
       ]],
 
       deptName: ['', Validators.required],
-
       designation: ['', Validators.required],
 
       userName: ['', [
@@ -79,34 +84,21 @@ export class EmployeeComponent implements OnInit {
         CustomValidators.strongPassword
       ]],
 
-
-
       role: ['', Validators.required]
-
     });
   }
 
 
 
-  isInvalid(controlName: string): boolean {
-    const control = this.employeeForm.get(controlName);
-    return !!(control && control.invalid && (control.touched || control.dirty));
-  }
-
-  markFormTouched() {
-    this.employeeForm.markAllAsTouched();
-  }
-
   loadEmployees() {
-    this.empService.getAllEmployees().subscribe({
+    this.masterSer.getAllEmployees().subscribe({
       next: res => {
         this.employeeList = res;
         this.filteredEmployees = res;
-
       },
       error: () => {
-
-        this.toastr.error('Failed to load employees', 'Error');
+        this.notificationService.error('Failed to load employees');
+        
       }
     });
   }
@@ -114,115 +106,79 @@ export class EmployeeComponent implements OnInit {
   searchEmployee() {
     this.filteredEmployees = this.employeeList.filter(e =>
       e.empName.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      e.email.toLowerCase().includes(this.searchText.toLowerCase())
+      e.email.toLowerCase().includes(this.searchText.toLowerCase()) 
     );
   }
 
   openModal() {
-
-    this.employeeForm.reset({ empId: 0 });
-
-    const passwordControl = this.employeeForm.get('password');
-    passwordControl?.setValidators([
-      Validators.required,
-      Validators.minLength(8),
-      CustomValidators.strongPassword
-    ]);
-    passwordControl?.updateValueAndValidity();
-
+    this.selectedEmployee = null;
     this.showModal = true;
-  }
 
-
-  closeModal() {
-    this.showModal = false;
   }
 
   editEmployee(emp: EmployeeModel) {
-    this.employeeForm.patchValue(emp);
-
-    const passwordControl = this.employeeForm.get('password');
-
-    passwordControl?.clearValidators();
-    passwordControl?.updateValueAndValidity();
-
+    this.selectedEmployee = emp;
     this.showModal = true;
   }
 
-
-  saveEmployee() {
-    this.markFormTouched();
-
-    if (this.employeeForm.invalid) return;
-    this.loader.show();
-
-    this.empService.createEmployee(this.employeeForm.value).
-      subscribe({
-        next: res => {
-          this.loader.hide();
-          this.toastr.success(res.message, 'Success');
-          this.closeModal(); this.loadEmployees();
-        },
-        error: err => {
-          this.loader.hide();
-          this.toastr.error(err.error.message || 'Failed to create employee', 'Error');
-        }
-      });
+  closeModal() {
+    this.showModal = false;
+    this.selectedEmployee = null;
   }
 
-  updateEmployee() {
-    this.markFormTouched();
+  onSave(emp: EmployeeModel) {
+    this.masterSer.createEmployee(emp).subscribe({
+      next: res => {
+        this.notificationService.success(res.message);
+        this.closeModal();
+        this.loadEmployees();
+        
+      },
+      error: err => {
+        this.notificationService.error(err?.error?.message || 'Failed to create employee');
+      }
+    });
+  }
 
-    if (this.employeeForm.invalid) return;
-
-    this.loader.show();
-
-    this.empService.updateEmployee(this.employeeForm.value).
-      subscribe({
-        next: res => {
-          this.loader.hide();
-          this.toastr.success(res.message, 'Success');
-          this.closeModal(); this.loadEmployees();
-        },
-        error: err => {
-          this.loader.hide();
-          this.toastr.error(err.error.message || 'Failed to update employee', 'Error');
-        }
-      });
+  onUpdate(emp: EmployeeModel) {
+    this.masterSer.updateEmployee(emp).subscribe({
+      next: res => {
+        this.notificationService.success(res.message);
+        this.closeModal();
+        this.loadEmployees();
+      },
+      error: err => {
+        this.notificationService.error(err?.error?.message || 'Failed to update employee');
+      }
+    });
   }
 
   deleteEmployee(empId: number) {
     this.selectedEmpId = empId;
-  this.showDeletePopup = true;
-
+    this.showDeletePopup = true;
   }
-
 
   closeDeletePopup() {
     this.showDeletePopup = false;
     this.selectedEmpId = null;
+    
   }
 
   confirmDelete() {
     if (!this.selectedEmpId) return;
 
-    this.loader.show();
-    this.empService.deleteEmployee(this.selectedEmpId).subscribe({
+    this.masterSer.deleteEmployee(this.selectedEmpId).subscribe({
       next: (res: any) => {
-        this.loader.hide();
-        this.toastr.success(res.message, 'Success');
+        this.notificationService.success(res.message);
         this.loadEmployees();
         this.closeDeletePopup();
       },
       error: err => {
-        this.loader.hide();
-        this.toastr.error(
-          err?.error?.message || 'Failed to delete employee',
-          'Error'
+        this.notificationService.error(
+          err?.error?.message || 'Failed to delete employee'
         );
         this.closeDeletePopup();
       }
     });
   }
-
 }

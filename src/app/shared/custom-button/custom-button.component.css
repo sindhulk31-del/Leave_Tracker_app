@@ -33,16 +33,14 @@ button.btn-login:hover {
 /* ===== MENU ICON BUTTON ===== */
 button.btn-menu {
   background: transparent;
-  color: #ffffff;
+  
   border: none;
   font-size: 18px;
   padding: 6px 10px;
   cursor: pointer;
 }
 
-button.btn-menu:hover {
-  color: #897ff9;
-}
+
 
 /* ===== LOGOUT BUTTON ===== */
 button.btn-logout {
