@@ -1,29 +1,29 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
+import { Router, RouterLink, RouterOutlet, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterOutlet } from '@angular/router';
 import { CustomButtonComponent } from 'src/app/shared/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet, CustomButtonComponent],
+  imports: [CommonModule, RouterLink, RouterOutlet, CustomButtonComponent, RouterModule],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+  private router = inject(Router);
+
   isCollapsed = false;
   userName = '';
   role = '';
-
-  constructor(private router: Router) {}
+  
+  today: Date = new Date();
 
   ngOnInit() {
     const data = localStorage.getItem('leaveUser');
     if (data) {
       const obj = JSON.parse(data);
-      this.userName = obj.userName;
-      this.role = obj.role;
+      this.userName = obj.userName || 'User';
+      this.role = obj.role || 'Employee';
     }
   }
 

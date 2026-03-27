@@ -1,0 +1,95 @@
+@if (uniqueEmployees.length && !selectedEmployeeRequests.length) {
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden animate-[fadeIn_0.3s_ease-in-out]">
+
+  <div class="px-6 py-3 bg-[#6a5acd] text-white flex justify-between items-center">
+    <div>
+      <h3 class="text-sm font-semibold m-0   text-white">All Employee Leave Requests</h3>
+      <p class="text-[10px] opacity-80 m-0 mt-0.5">Click on a row to view specific leave history</p>
+    </div>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="bg-gray-50/50 [&>th]:px-6 [&>th]:py-3 [&>th]:text-[11px] [&>th]:font-bold [&>th]:text-gray-400 [&>th]:uppercase border-b border-gray-100">
+          <th class="w-20">Sl.No</th>
+          <th>Employee ID</th>
+          <th>Employee Name</th>
+          <th class="text-right">Action</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        @for (emp of uniqueEmployees; track $index) {
+        <tr class="hover:bg-gray-50/80 transition-colors cursor-pointer group" (click)="openEmployee.emit(emp.empId)">
+          <td class="px-6 py-4 text-xs text-gray-400 font-medium">{{ $index + 1 }}</td>
+          <td class="px-6 py-4 text-xs font-bold text-gray-700 tracking-tight">{{ emp.empId }}</td>
+          <td class="px-6 py-4 text-xs font-semibold text-[#6a5acd]">{{ emp.empName }}</td>
+          <td class="px-6 py-4 text-right">
+            <span class="text-[10px] font-bold text-gray-300 group-hover:text-[#6a5acd] transition-colors uppercase flex items-center justify-end gap-2">
+              View History <i class="fa fa-chevron-right text-[8px]"></i>
+            </span>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+}
+
+@if (selectedEmployeeRequests.length) {
+  
+  <div class="mb-4">
+    <app-custom-button
+      label="Back"
+      icon="fa fa-arrow-left"
+      btnClass="text-[#6a5acd] text-[11px] font-bold uppercase tracking-wider hover:bg-[#6a5acd]/5 px-3 py-2 rounded transition-all cursor-pointer inline-flex items-center gap-2"
+      (clicked)="goBack.emit()">
+    </app-custom-button>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden animate-[fadeIn_0.3s_ease-in-out]">
+    
+    <div class="px-6 py-4 border-b border-gray-100 bg-white flex items-center justify-between">
+      <h3 class="text-sm font-bold text-gray-800 uppercase tracking-wide">
+        History of: <span class="text-[#6a5acd] ml-1">{{ selectedEmployeeName }}</span>
+      </h3>
+      <span class="bg-gray-100 text-gray-500 text-[10px] px-2 py-1 rounded font-bold uppercase">
+        {{ selectedEmployeeRequests.length }} Total Requests
+      </span>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-gray-50/50 [&>th]:px-6 [&>th]:py-3 [&>th]:text-[11px] [&>th]:font-bold [&>th]:text-gray-400 [&>th]:uppercase">
+            <th>Leave Type</th>
+            <th>Dates & Duration</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          @for (item of selectedEmployeeRequests; track $index) {
+          <tr class="hover:bg-gray-50/30 transition-colors">
+            <td class="px-6 py-4">
+              <span [ngClass]="item.leaveType === 'sickLeave' ? 'text-green-600 bg-green-50 border-green-100' : 'text-blue-600 bg-blue-50 border-blue-100'"
+                class="px-2 py-1 rounded text-[9px] font-bold uppercase border">
+                {{ item.leaveType }}
+              </span>
+            </td>
+            <td class="px-6 py-4">
+              <p class="text-xs font-bold text-gray-700 m-0">{{ item.fromDate | date:'dd MMM yyyy' }}</p>
+              <p class="text-[10px] text-gray-400 m-0 mt-0.5">to {{ item.toDate | date:'dd MMM yyyy' }}</p>
+            </td>
+            <td class="px-6 py-4">
+              <p class="text-xs text-gray-600 max-w-xs leading-relaxed italic">
+                "{{ item.reason }}"
+              </p>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+}

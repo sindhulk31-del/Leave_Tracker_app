@@ -1,0 +1,86 @@
+.modal-backdrop-custom {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+.modal-card {
+  background: #fff;
+  width: 600px; 
+  max-width: 90%; /* Responsive for smaller screens */
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 20px; /* Add padding for spacious layout */
+  animation: popup 0.25s ease-in-out;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2); /* Slight shadow */
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.modal-body {
+  padding-top: 15px;
+}
+
+.modal-body form .row {
+  gap: 15px;
+}
+
+.modal-body form label {
+  font-weight: 500;
+}
+
+.modal-body form input,
+.modal-body form select,
+.modal-body form textarea {
+  padding: 6px 10px;
+  font-size: 0.95rem;
+}
+
+.modal-body .d-flex {
+  margin-top: 10px;
+  gap: 15px;
+}
+
+.btn-leave-submit {
+  background-color: #6a5acd;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+
+@keyframes popup {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.btn-cancel-sm {
+  background: transparent;
+  color: #6a5acd;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;  
+}

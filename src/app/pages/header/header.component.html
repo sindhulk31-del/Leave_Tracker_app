@@ -1,65 +1,98 @@
-<div class="layout">
+<div class="flex h-screen bg-[#f1f5f9] font-sans">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar" [class.collapsed]="isCollapsed">
+  <aside
+    class="bg-[#0f172a] text-slate-300 flex flex-col transition-all duration-300 shadow-xl"
+    [class.w-[260px]]="!isCollapsed"
+    [class.w-[85px]]="isCollapsed"
+  >
 
-    <!-- TOP -->
-    <div class="sidebar-header">
-      <app-custom-button
-        icon="fa fa-bars"
-        btnClass="btn-menu"
-        (clicked)="toggleSidebar()">
-      </app-custom-button>
-
-      <span class="brand" *ngIf="!isCollapsed">Leave Admin</span>
+    <div class="h-[70px] flex items-center px-6 border-b border-slate-800 shrink-0"
+         [ngClass]="isCollapsed ? 'justify-center px-0' : 'justify-between'">
+      
+      <div class="flex items-center gap-3 overflow-hidden">
+        <button (click)="toggleSidebar()" 
+                class="w-10 h-10 bg-transparent rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-[#6a5acd]/30 hover:bg-[#6a5acc] transition-all active:scale-95">
+          <i class="fa text-white text-lg" [ngClass]="isCollapsed ? 'fa-indent' : 'fa-dedent'"></i>
+        </button>
+        
+        <span class="text-white text-lg font-bold tracking-tight whitespace-nowrap" *ngIf="!isCollapsed">
+          LeaveTracker
+        </span>
+      </div>
     </div>
 
-    <!-- MENU -->
-    <nav class="menu">
-      <a routerLink="/employee" *ngIf="role === 'Hr'">
-        <i class="fa fa-users"></i>
-        <span *ngIf="!isCollapsed">Employees</span>
+    <nav class="flex-1 py-6 px-3 space-y-2 overflow-y-auto">
+      <a *ngIf="role === 'Hr'"
+        routerLink="/employee"
+        routerLinkActive="bg-[#6a5acd] !text-white shadow-md shadow-[#6a5acc]/40"
+        class="flex items-center rounded-xl hover:bg-slate-800 transition-all !no-underline !text-slate-400 group"
+        [ngClass]="isCollapsed ? 'justify-center h-12 w-12 mx-auto' : 'py-3 px-4 gap-4'"
+      >
+        <i class="fa fa-users text-lg"></i>
+        <span class="font-semibold text-sm !no-underline" *ngIf="!isCollapsed">Employees</span>
       </a>
 
-      <a routerLink="/leave-balance" *ngIf="role === 'Hr'">
-        <i class="fa fa-bar-chart"></i>
-        <span *ngIf="!isCollapsed">Leave Balance</span>
+      <a *ngIf="role === 'Hr'"
+      routerLink="/leave-balance"
+        routerLinkActive="bg-[#6a5acd] !text-white shadow-md shadow-[#6a5acc]/40"
+        class="flex items-center rounded-xl hover:bg-slate-800 transition-all !no-underline !text-slate-400 group"
+        [ngClass]="isCollapsed ? 'justify-center h-12 w-12 mx-auto' : 'py-3 px-4 gap-4'"
+      >
+        <i class="fa fa-list-alt text-lg"></i>
+        <span class="font-semibold text-sm !no-underline" *ngIf="!isCollapsed">Leave Balance</span>
       </a>
 
-      <a routerLink="/leave-request">
-        <i class="fa fa-envelope"></i>
-        <span *ngIf="!isCollapsed">Leave Request</span>
+      <a routerLink="/leave-request"
+        routerLinkActive="bg-[#6a5acd] !text-white shadow-md shadow-[#6a5acc]/40"
+        class="flex items-center rounded-xl hover:bg-slate-800 transition-all !no-underline !text-slate-400 group"
+        [ngClass]="isCollapsed ? 'justify-center h-12 w-12 mx-auto' : 'py-3 px-4 gap-4'"
+      >
+        <i class="fa fa-send text-lg"></i>
+        <span class="font-semibold text-sm !no-underline" *ngIf="!isCollapsed">Leave Request</span>
       </a>
     </nav>
 
-    <!-- FOOTER -->
-    <div class="sidebar-footer">
-
-      <!-- USER INFO -->
-      <div class="user-info">
-        <i class="fa fa-user-circle"></i>
-
-        <div class="user-text" *ngIf="!isCollapsed">
-          <div class="user-name">{{ userName }}</div>
-          <div class="user-role">{{ role }}</div>
+    <div class="p-4 bg-slate-900/50 border-t border-slate-800">
+      
+      <div class="flex flex-col items-center mb-4 px-2" [ngClass]="isCollapsed ? '' : 'items-start'">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white font-bold border-2 border-slate-600 shrink-0">
+            {{ userName.charAt(0) | uppercase }}
+          </div>
+          <div class="flex flex-col overflow-hidden" *ngIf="!isCollapsed">
+            <span class="text-xs font-bold text-white truncate">{{ userName }}</span>
+            <span class="text-[10px] text-[#6a5acd] uppercase font-bold tracking-widest">{{ role }}</span>
+          </div>
         </div>
+        
+        <span *ngIf="isCollapsed" class="text-[9px] text-[#6a5acd] uppercase font-bold tracking-tighter mt-1">
+          {{ role }}
+        </span>
       </div>
 
-      <!-- LOGOUT -->
-      <app-custom-button
-        [label]="!isCollapsed ? 'Logout' : ''"
-        icon="fa fa-sign-out"
-        btnClass="btn-logout"
+    <app-custom-button
+        [label]="!isCollapsed ? 'Sign Out' : ''"
+        icon="fa fa-power-off"
+        [btnClass]="isCollapsed 
+            ? 'w-full text-red-500 bg-transparent border-none text-lg flex items-center justify-center transition-colors hover:text-red-400' 
+            : 'w-full h-11 !rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 font-bold text-xs hover:bg-red-500 hover:text-white transition-all flex items-center justify-center gap-2'"
         (clicked)="logout()">
       </app-custom-button>
-
     </div>
 
   </aside>
 
-  <!-- CONTENT -->
-  <main class="content">
-    <router-outlet></router-outlet>
-  </main>
+  <main class="flex-1 flex flex-col min-w-0">
+    <header class="h-[70px] bg-white border-b border-slate-200 flex items-center justify-between px-8 shadow-sm">
+      <h2 class="text-lg font-semibold text-slate-800 tracking-tight">Employee Leave Management System</h2>
+      <div class="hidden sm:flex items-center gap-2 text-slate-400 bg-slate-50 px-4 py-2 rounded-lg border border-slate-100">
+        <i class="fa fa-calendar-o text-xs"></i>
+        <span class="text-[11px] font-bold text-slate-600 uppercase tracking-wider">{{ today | date:'fullDate' }}</span>
+      </div>
+    </header>
 
+    <div class="flex-1 overflow-y-auto p-8 bg-[#f8fafc]">
+       <router-outlet></router-outlet>
+    </div>
+  </main>
 </div>

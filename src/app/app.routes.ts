@@ -71,13 +71,6 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['Hr'] }
       },
-
-      // {
-      //   path: 'leave-request-employee',
-      //   component: LeaveRequestComponent,
-      //   canActivate: [roleGuard],
-      //   data: { roles: ['Employee'] }
-      // }
     
 
     ]

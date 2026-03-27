@@ -1,0 +1,15 @@
+.card-header {
+  background-color: #6a5acd;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.btn-go-back {
+  background: transparent;
+  color: #6a5acd;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
