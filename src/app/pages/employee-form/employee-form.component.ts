@@ -8,7 +8,7 @@ import { EmployeeModel } from '../../models/Empolyee';
 @Component({
   selector: 'app-employee-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CustomButtonComponent],
   templateUrl: './employee-form.component.html',
   // styleUrls: ['./employee-form.component.css']
 })
