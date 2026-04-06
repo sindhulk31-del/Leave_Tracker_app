@@ -2,9 +2,6 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 export class CustomValidators {
 
-  /* ===========================
-     NO EMOJI / SYMBOL VALIDATOR
-  ============================ */
   static noEmoji(control: AbstractControl): ValidationErrors | null {
     if (!control.value) return null;
 
@@ -14,9 +11,7 @@ export class CustomValidators {
       : { noEmoji: true };
   }
 
-  /* ===========================
-     ONLY ALPHABETS (Name)
-  ============================ */
+  
   static onlyAlphabets(control: AbstractControl): ValidationErrors | null {
     if (!control.value) return null;
 
@@ -25,9 +20,6 @@ export class CustomValidators {
       : { onlyAlphabets: true };
   }
 
-  /* ===========================
-     ONLY NUMBERS
-  ============================ */
   static onlyNumbers(control: AbstractControl): ValidationErrors | null {
     if (!control.value) return null;
 
@@ -36,16 +28,12 @@ export class CustomValidators {
       : { onlyNumbers: true };
   }
 
-  /* ===========================
-     STRICT 10 DIGIT MOBILE
-  ============================ */
   static mobile10(control: AbstractControl): ValidationErrors | null {
   if (!control.value) return null;
 
-  // Remove non-numeric characters immediately
+ 
   const numericValue = control.value.toString().replace(/\D/g, '');
 
-  // Update value WITHOUT triggering loop
   if (numericValue !== control.value) {
     control.setValue(numericValue, { emitEvent: false });
   }
@@ -56,9 +44,6 @@ export class CustomValidators {
 }
 
 
-  /* ===========================
-     STRONG PASSWORD
-  ============================ */
   static strongPassword(control: AbstractControl): ValidationErrors | null {
     if (!control.value) return null;
 
